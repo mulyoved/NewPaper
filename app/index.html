@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="description" content="Final, Financial Algorithms, programming services for hedge funds and retail traders.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Web Starter Kit</title>
+    <title>Financial Algorithms</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -14,7 +14,7 @@
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Web Starter Kit">
+    <meta name="apple-mobile-web-app-title" content="Financial Algorithms">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
 
     <!-- Tile icon for Win8 (144x144 + tile color) -->
@@ -27,13 +27,19 @@
     -->
 
     <!-- Page styles -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- build:css styles/main.min.css -->
+    <link rel="stylesheet" href="styles/main.css" inline>
+    <!-- endbuild -->
   </head>
   <body>
     <header class="app-bar promote-layer">
       <div class="app-bar-container">
         <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
-        <h1 class="logo">Web <strong>Starter Kit</strong></h1>
+        <!-- <h1 class="logo">Web <strong>Starter Kit</strong></h1> -->
+        <div class="logo-image-text">
+          <img class="logo-image" src="images/logo/Logo_final_white.svg">
+          <p>Software Tools and Services for <strong>Traders</strong></p>
+        </div>
         <section class="app-bar-actions">
         <!-- Put App Bar Buttons Here -->
         <!-- e.g <button><i class="icon icon-star"></i></button> -->
@@ -44,24 +50,66 @@
     <nav class="navdrawer-container promote-layer">
       <h4>Navigation</h4>
       <ul>
-        <li><a href="#hello">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#get-started">News</a></li>
         <li><a href="styleguide.html">Services</a></li>
-        <li><a href="styleguide.html">Products</a></li>
+        <li><a href="/products.html">Products</a></li>
         <li><a href="styleguide.html">Partners</a></li>
         <li><a href="styleguide.html">Contact</a></li>
       </ul>
     </nav>
 
     <main>
-      <h2 id="hello">About Us</h1>
-      <p>Financial Algorithms provide advance programming services for hedge funds and retail traders. Final employees have many years of programming experience and understand the high demands of the trading industry. We can deliver tailor made solutions to meet our customer's requirements.
-        Financial Algorithms specializes in development and back testing of automatic strategies including:</p>
+      <section class="styleguide__editorial-header">
 
-      <h2 id="get-started">Get Started.</h2>
-      <p>Read how to <a href="http://developers.google.com/web/starter-kit">Get Started</a> or check out the <a href="styleguide.html">Style Guide</a>.</p>
-    </main>
+        <div class="editorial-header">
+          <div class="container">
+            <h2 class="xlarge">About Us</h2>
+            <img class="logo-image" src="images/logo/Logo_final.svg">
+            <p class="editorial-header__excerpt g-wide--pull-1">Financial Algorithms provide advance programming services for hedge funds and retail traders. Final employees have many years of programming experience and understand the high demands of the trading industry. We can deliver tailor made solutions to meet our customer's requirements.
+              Financial Algorithms specializes in development and back testing of automatic strategies including:</p>
 
+            <ul>
+              <li>Multi Market Strategies</li>
+              <li>High Frequency Trading</li>
+              <li>Scalping</li>
+              <li>Short and Long Term Strategies</li>
+              <li>Scanners</li>
+              <li>Stocks</li>
+              <li>Options analyze </li>
+              <li>Forex and Foreign Markets with Custom Software</li>
+            </ul>
+
+            <p>Final also provides the leading solutions for industry leading tools like NinjaTrader, TradeStation, MetaTrader, MultiCharts, eSignal and more.</p>
+
+            <ul class="list-links list-links--primary">
+              <li class="list__item"><a href="/final/services/" title="Services">Services...</a></li>
+              <li class="list__item"><a href="/final/products" title="products">Products...</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <ul class="guides-list container-medium">
+        <li class="guides-list__item g--half">
+          <div class="product-content">
+            <h3 class="xlarge"><a href="/products/marketbalance.html" title="Go to MarketBalance" class="themed">MarketBalance</a></h3>
+            <a href="/products/marketbalance.html"><img class="g-centered" src="/images/thumbnails/MarketBalance1.png" alt="Final MarketBalance" border="0" height="190" width="240"></a>
+          </div>
+          <p>MarketBalance allows you to view the relationship between the powers that move the market in real time as the balance between them change during trading sessions.</p>
+          <div class="secondary-content">
+          </div>
+        </li>
+        <li class="guides-list__item g--half g--last">
+          <div class="product-content">
+            <h3 class="xlarge"><a href="/products/tpo.html" title="Go to TPOChart" class="themed">TPOChart</a></h3>
+            <a href="/products/tpo.html"><img src="/images/thumbnails/tpo1.png" alt="TPOChart" border="0" height="190" width="240"></a>
+          </div>
+          <p>TPOChart provides users with the information needed to understand the market's internal structure and development using unique presentation of market data.</p>
+          <div class="secondary-content">
+          </div>
+        </li>
+      </ul>
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/main.js"></script>
     <!-- endbuild -->

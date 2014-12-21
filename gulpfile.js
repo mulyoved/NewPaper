@@ -28,6 +28,13 @@ var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
 
+require('gulp-grunt')(gulp);
+var debug = require('gulp-debug');
+var imageResize = require('gulp-image-resize');
+var inlinesource = require('gulp-inline-source');
+var smoosher = require('gulp-smoosher');
+var critical = require('critical');
+
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
   'ie_mob >= 10',
@@ -51,13 +58,27 @@ gulp.task('jshint', function () {
 
 // Optimize Images
 gulp.task('images', function () {
-  return gulp.src('app/images/**/*')
+  //logo svg get destroyed by min so exclude them and use image-copy to pass them, used SVG Cleaner to clean and minimze them
+  return gulp.src(['app/images/**/*', '!app/images/logo/**'])
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
     })))
     .pipe(gulp.dest('dist/images'))
     .pipe($.size({title: 'images'}));
+});
+
+gulp.task('image-resize', function () {
+  gulp.src('app/images/thumbnails/**')
+    .pipe(imageResize({
+      width : 240,
+      height : 190,
+      crop : true,
+      gravity: 'SouthWest',
+      //imageMagick: true,
+      upscale : false
+    }))
+    .pipe(gulp.dest('dist/images/thumbnails/'));
 });
 
 // Copy All Files At The Root Level (app)
@@ -68,8 +89,20 @@ gulp.task('copy', function () {
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'))
+  })
+    //.pipe(debug({verbose: true}))
+    .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'copy'}));
+});
+
+gulp.task('copy-images', function () {
+  gulp.src(['app/images/logo/*'])
+    .pipe(gulp.dest('dist/images/logo'))
+    .pipe($.size({title: 'copy-images'}));
+
+  return gulp.src(['app/images/icons/*'])
+    .pipe(gulp.dest('dist/images/icons'))
+    .pipe($.size({title: 'copy-images'}));
 });
 
 // Copy Web Fonts To Dist
@@ -88,7 +121,7 @@ gulp.task('styles', function () {
       'app/styles/components/components.scss'
     ])
     .pipe($.changed('styles', {extension: '.scss'}))
-    .pipe($.rubySass({
+    .pipe($.sass({
         style: 'expanded',
         precision: 10
       })
@@ -108,6 +141,7 @@ gulp.task('html', function () {
 
   return gulp.src('app/**/*.html')
     .pipe(assets)
+    //.pipe(debug({verbose: false}))
     // Concatenate And Minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Remove Any Unused CSS
@@ -116,7 +150,7 @@ gulp.task('html', function () {
     .pipe($.if('*.css', $.uncss({
       html: [
         'app/index.html',
-        'app/styleguide.html'
+        //'app/styleguide.html'
       ],
       // CSS Selectors for UnCSS to ignore
       ignore: [
@@ -128,15 +162,47 @@ gulp.task('html', function () {
     // In case you are still using useref build blocks
     .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
+
+    //.pipe(debug({verbose: false}))
+
     .pipe($.useref())
+    //.pipe($.if('*.html', debug({verbose: false})))
+
     // Update Production Style Guide Paths
     .pipe($.replace('components/components.css', 'components/main.min.css'))
     // Minify Any HTML
+
+    //.pipe($.if('*.html', smoosher({base: 'dist'})))
     .pipe($.if('*.html', $.minifyHtml()))
     // Output Files
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
 });
+
+gulp.task('copystyles', function () {
+  return gulp.src(['dist/styles/main.min.css'])
+    .pipe($.rename({
+      basename: "site" // site.css
+    }))
+    .pipe(gulp.dest('dist/styles'));
+});
+
+gulp.task('critical-do', function () {
+  critical.generateInline({
+    base: 'dist/',
+    src: 'index.html',
+    styleTarget: 'styles/main.css',
+    htmlTarget: 'index.html',
+    width: 320,
+    height: 480,
+    minify: true
+  });
+});
+
+gulp.task('critical', function() {
+  runSequence('default', 'copystyles', 'critical-do');
+});
+
 
 // Clean Output Directory
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
@@ -172,7 +238,7 @@ gulp.task('serve:dist', ['default'], function () {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (cb) {
-  runSequence('styles', ['jshint', 'html', 'images', 'fonts', 'copy'], cb);
+  runSequence('styles', ['jshint', 'html', 'images', 'fonts', 'image-resize', 'copy', 'copy-images'], cb);
 });
 
 // Run PageSpeed Insights
@@ -182,9 +248,13 @@ gulp.task('pagespeed', pagespeed.bind(null, {
   // free (no API key) tier. You can use a Google
   // Developer API key if you have one. See
   // http://goo.gl/RkN0vE for info key: 'YOUR_API_KEY'
-  url: 'https://example.com',
+  url: 'http://newpaper.fin-alg.com',
   strategy: 'mobile'
 }));
+
+gulp.task('deploy', function() {
+  runSequence('default', 'grunt-deploy');
+});
 
 // Load custom tasks from the `tasks` directory
 try { require('require-dir')('tasks'); } catch (err) {}

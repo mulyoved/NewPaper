@@ -46,7 +46,9 @@
   $colorMuted: $colorGray !default;
   $colorDanger: $colorRed !default;
 
-  $colorLayouts: #297ea9 !default;
+  //$colorLayouts: #297ea9 !default;
+  $colorLayouts: rgb(33, 44, 67) !default;
+
   $colorLayoutsSecondary: lighten($colorLayouts, 30%) !default;
   $colorUser: #2c8566 !default;
   $colorUserSecondary: lighten($colorUser, 30%) !default;

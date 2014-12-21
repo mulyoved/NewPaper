@@ -1,3 +1,37 @@
+//Replace rubySass with sass 
+
+npm install gulp-sass --save-dev
+change gulpfile.js
+.pipe($.rubySass({ to
+.pipe($.sass({ to
+
+
+//logo svg get destroyed by min so exclude them and use image-copy to pass them, used SVG Cleaner to clean and minimze them
+
+gzip compression
+D:\js\NewPaper\node_modules\apache-server-configs\dist\.htaccess
+#Muly: add per rackspace support
+#--mod_gzip rule to speed up serving content
+<ifModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>
+
+
+<IfModule mod_deflate.c>
+  <FilesMatch "\\.(js|css|html|htm|php|xml|eot|svg)$">
+    SetOutputFilter DEFLATE
+  </FilesMatch>
+  Header append Vary User-Agent env=!dont-vary
+</IfModule>
+
+
 # [![Web Starter Kit](https://cloud.githubusercontent.com/assets/170270/3343034/ceef6e92-f899-11e3-96b9-5d9d69d97a00.png)](https://github.com/google/web-starter-kit/releases/latest)
 
 ## Overview
